@@ -8,6 +8,7 @@ class App extends Component {
   state = {
     phones: [],
     name: '',
+    phone: '',
   };
 
   addContact = (e) => {
@@ -18,10 +19,12 @@ class App extends Component {
           ...prevState.phones,
           {
             name: e.target.elements.name.value,
+            phone: e.target.elements.number.value,
             id: getUniqueId(),
           },
         ],
         name: '',
+        phone: '',
       };
     });
   };
@@ -31,6 +34,12 @@ class App extends Component {
       name,
     }));
   };
+
+  setPhone = (phone) => {
+    this.setState(() => ({
+      phone,
+    }));
+  }
 
   render() {
     return (
@@ -48,7 +57,9 @@ class App extends Component {
         <PhoneBook
           onSubmit={this.addContact}
           setName={this.setName}
-          value={this.state.name}
+          setPhone={this.setPhone}
+          nameValue={this.state.name}
+          phoneValue={this.state.phone}
         />
         <Contacts contacts={this.state.phones} />
       </div>
