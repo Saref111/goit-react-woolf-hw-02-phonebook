@@ -64,13 +64,16 @@ class App extends Component {
           color: '#010101',
         }}
       >
-        <PhoneBook onSubmit={this.addContact} />
-        <Filter setFilter={this.setFilter} filterValue={this.state.filter} />
+        <h1>Phone Book</h1>
+        <PhoneBook onSubmit={this.addContact} />        
+        <h2>Contacts</h2>
         <Contacts
           contacts={this.state.phones}
           filterValue={this.state.filter}
           deleteContact={this.deleteContact}
-        />
+        >
+          <Filter setFilter={this.setFilter} filterValue={this.state.filter} />
+        </Contacts>
       </div>
     );
   }

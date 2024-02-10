@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import css from './Filter.module.scss';
+
 class Filter extends Component {
   onFilterChange = (e) => {
     this.props.setFilter(e.target.value);
@@ -7,11 +9,13 @@ class Filter extends Component {
 
   render() {
     return (
-      <input
-        type="text"
-        onChange={this.onFilterChange}
-        value={this.props.filterValue}
-      />
+      <label className={css.label}>Find contacts by name:{' '}
+        <input
+          type="text"
+          onChange={this.onFilterChange}
+          value={this.props.filterValue}
+        />
+      </label>
     );
   }
 }
