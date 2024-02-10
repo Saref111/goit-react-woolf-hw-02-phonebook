@@ -9,6 +9,7 @@ class App extends Component {
     phones: [],
     name: '',
     phone: '',
+    filter: '',
   };
 
   addContact = (e) => {
@@ -39,7 +40,13 @@ class App extends Component {
     this.setState(() => ({
       phone,
     }));
-  }
+  };
+
+  setFilter = (filter) => {
+    this.setState(() => ({
+      filter,
+    }));
+  };
 
   render() {
     return (
@@ -61,7 +68,11 @@ class App extends Component {
           nameValue={this.state.name}
           phoneValue={this.state.phone}
         />
-        <Contacts contacts={this.state.phones} />
+        <Contacts
+          setFilter={this.setFilter}
+          contacts={this.state.phones}
+          filterValue={this.state.filter}
+        />
       </div>
     );
   }
