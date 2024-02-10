@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 class Contacts extends Component {
-  onFilterChange = (e) => {
-    this.props.setFilter(e.target.value);
-  };
-
   filterValues = (contact) => {
     return (
       contact.name.includes(this.props.filterValue) ||
@@ -14,22 +10,16 @@ class Contacts extends Component {
 
   render() {
     return (
-      <>
-        <input
-          type="text"
-          onChange={this.onFilterChange}
-          value={this.props.filterValue}
-        />
-        <ul>
-          {this.props.contacts.filter(this.filterValues).map((contact) => (
-            <li key={contact.id}>
-              {contact.name}: {contact.phone}
-            </li>
-          ))}
-        </ul>
-      </>
+      <ul>
+        {this.props.contacts.filter(this.filterValues).map((contact) => (
+          <li key={contact.id}>
+            <span>{contact.name}: {contact.phone}</span>
+            <button type='button' onClick={() => this.props.deleteContact(contact.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     );
-  };
+  }
 }
 
 export default React.memo(Contacts);

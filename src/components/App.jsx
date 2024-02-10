@@ -3,6 +3,7 @@ import { getUniqueId } from 'helpers/helpers';
 
 import PhoneBook from './PhoneBook/PhoneBook';
 import Contacts from './Contacts/Contacts';
+import Filter from './Filter/Filter';
 
 class App extends Component {
   state = {
@@ -10,8 +11,18 @@ class App extends Component {
     filter: '',
   };
 
+  isContactExist = (contact) => {
+    return this.state.phones.some((it) => it.name === contact.name);
+  };
+
   addContact = (e) => {
     e.preventDefault();
+
+    if (this.isContactExist(e.target.elements.name.value)) {
+      alert(`${e.target.elements.name.value} is already in contacts`);
+      return;
+    }
+
     this.setState((prevState) => {
       return {
         phones: [
@@ -22,6 +33,14 @@ class App extends Component {
             id: getUniqueId(),
           },
         ],
+      };
+    });
+  };
+
+  deleteContact = (id) => {
+    this.setState((prevState) => {
+      return {
+        phones: prevState.phones.filter((it) => it.id !== id),
       };
     });
   };
@@ -45,13 +64,12 @@ class App extends Component {
           color: '#010101',
         }}
       >
-        <PhoneBook
-          onSubmit={this.addContact}
-        />
+        <PhoneBook onSubmit={this.addContact} />
+        <Filter setFilter={this.setFilter} filterValue={this.state.filter} />
         <Contacts
-          setFilter={this.setFilter}
           contacts={this.state.phones}
           filterValue={this.state.filter}
+          deleteContact={this.deleteContact}
         />
       </div>
     );
