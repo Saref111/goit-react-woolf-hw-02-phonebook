@@ -1,10 +1,11 @@
-import { getUniqueId } from 'helpers/helpers';
 import React, { Component } from 'react';
+import { getUniqueId } from 'helpers/helpers';
+
+import PhoneBook from './PhoneBook/PhoneBook';
 
 class App extends Component {
   state = {
     phones: [],
-    name: '',
   };
   addContact = (e) => {
     e.preventDefault();
@@ -13,15 +14,15 @@ class App extends Component {
         phones: [
           ...prevState.phones,
           {
-            name: e.target.elements.name,
+            name: e.target.elements.name.value,
             id: getUniqueId(),
           },
         ],
-        name: '',
       };
     });
   };
   render() {
+    console.log(this.state.phones);
     return (
       <div
         style={{
