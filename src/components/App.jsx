@@ -7,8 +7,6 @@ import Contacts from './Contacts/Contacts';
 class App extends Component {
   state = {
     phones: [],
-    name: '',
-    phone: '',
     filter: '',
   };
 
@@ -24,22 +22,8 @@ class App extends Component {
             id: getUniqueId(),
           },
         ],
-        name: '',
-        phone: '',
       };
     });
-  };
-
-  setName = (name) => {
-    this.setState(() => ({
-      name,
-    }));
-  };
-
-  setPhone = (phone) => {
-    this.setState(() => ({
-      phone,
-    }));
   };
 
   setFilter = (filter) => {
@@ -63,10 +47,6 @@ class App extends Component {
       >
         <PhoneBook
           onSubmit={this.addContact}
-          setName={this.setName}
-          setPhone={this.setPhone}
-          nameValue={this.state.name}
-          phoneValue={this.state.phone}
         />
         <Contacts
           setFilter={this.setFilter}

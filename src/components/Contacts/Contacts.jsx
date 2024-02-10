@@ -29,7 +29,7 @@ class Contacts extends Component {
         </ul>
       </>
     );
-  }
+  };
 }
 
 export default React.memo(Contacts);

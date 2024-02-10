@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 
 class PhoneBook extends Component {
+  state= {
+    name: '',
+    phone: '',
+  }
+
   onSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(e);
+    this.setState({
+      name: '',
+      phone: '',
+    });
   };
 
   onChangeName = (e) => {
-    this.props.setName(e.target.value);
+    this.setState((pS) => ({
+      ...pS,
+      name: e.target.value,
+    }));
   };
 
   onChangePhone = (e) => {
-    this.props.setPhone(e.target.value);
+    this.setState((pS) => ({
+      ...pS,
+      phone: e.target.value,
+    }));
   };
 
   render() {
@@ -24,7 +39,7 @@ class PhoneBook extends Component {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           onChange={this.onChangeName}
-          value={this.props.nameValue}
+          value={this.state.name}
         />
         <input
           type="tel"
@@ -33,7 +48,7 @@ class PhoneBook extends Component {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           onChange={this.onChangePhone}
-          value={this.props.phoneValue}
+          value={this.state.phone}
         />
         <button type="submit">Add contact</button>
       </form>
