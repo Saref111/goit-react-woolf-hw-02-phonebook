@@ -11,15 +11,15 @@ class App extends Component {
     filter: '',
   };
 
-  isContactExist = (contact) => {
-    return this.state.phones.some((it) => it.name === contact.name);
+  isContactExist = (name) => {
+    return this.state.phones.some(
+      (it) => it.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
-  addContact = (e) => {
-    e.preventDefault();
-
-    if (this.isContactExist(e.target.elements.name.value)) {
-      alert(`${e.target.elements.name.value} is already in contacts`);
+  addContact = ({ name, phone }) => {
+    if (this.isContactExist(name)) {
+      alert(`${name} is already in contacts`);
       return;
     }
 
@@ -28,8 +28,8 @@ class App extends Component {
         phones: [
           ...prevState.phones,
           {
-            name: e.target.elements.name.value,
-            phone: e.target.elements.number.value,
+            name,
+            phone,
             id: getUniqueId(),
           },
         ],
@@ -51,6 +51,15 @@ class App extends Component {
     }));
   };
 
+  getFilteredContacts = () => {
+    return this.state.phones.filter((contact) => {
+      return (
+        contact.name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
+        contact.phone.includes(this.state.filter)
+      );
+    });
+  };
+
   render() {
     return (
       <div
@@ -65,15 +74,13 @@ class App extends Component {
         }}
       >
         <h1>Phone Book</h1>
-        <PhoneBook onSubmit={this.addContact} />        
+        <PhoneBook onSubmit={this.addContact} />
+        <Filter setFilter={this.setFilter} filterValue={this.state.filter} />
         <h2>Contacts</h2>
         <Contacts
-          contacts={this.state.phones}
-          filterValue={this.state.filter}
+          contacts={this.getFilteredContacts()}
           deleteContact={this.deleteContact}
-        >
-          <Filter setFilter={this.setFilter} filterValue={this.state.filter} />
-        </Contacts>
+        />
       </div>
     );
   }

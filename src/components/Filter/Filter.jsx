@@ -9,7 +9,8 @@ class Filter extends Component {
 
   render() {
     return (
-      <label className={css.label}>Find contacts by name:{' '}
+      <label className={css.label}>
+        Find contacts by name:{' '}
         <input
           type="text"
           onChange={this.onFilterChange}

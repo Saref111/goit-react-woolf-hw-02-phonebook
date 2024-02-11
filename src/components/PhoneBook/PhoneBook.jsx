@@ -5,55 +5,61 @@ import css from './PhoneBook.module.scss';
 class PhoneBook extends Component {
   state = {
     name: '',
-    phone: '',
+    number: '',
+  };
+
+  isFormEmpty = () => {
+    return !this.state.name || !this.state.number;
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(e);
-    this.setState({
-      name: '',
-      phone: '',
-    });
-  };
+    if (this.isFormEmpty()) {
+      alert('All fields must be filled!');
+      return;
+    }
 
-  onChangeName = (e) => {
-    this.setState((pS) => ({
-      ...pS,
-      name: e.target.value,
+    this.props.onSubmit({
+      name: this.state.name,
+      phone: this.state.number,
+    });
+    this.setState(() => ({
+      name: '',
+      number: '',
     }));
   };
 
-  onChangePhone = (e) => {
-    this.setState((pS) => ({
-      ...pS,
-      phone: e.target.value,
+  onChange = ({target: {name, value}}) => {
+    this.setState(() => ({
+      [name]: value,
     }));
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmit} className={css.form}> 
-        <label className={css.label}>Enter name:{' '}
+      <form onSubmit={this.onSubmit} className={css.form}>
+        <label className={css.label}>
+          Enter name:{' '}
           <input
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            onChange={this.onChangeName}
+            onChange={this.onChange}
             value={this.state.name}
           />
         </label>
-        <label className={css.label}>Enter phone number:{' '}
+        <label className={css.label}>
+          Enter phone number:{' '}
           <input
             type="tel"
             name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            onChange={this.onChangePhone}
-            value={this.state.phone}
+            onChange={this.onChange}
+            value={this.state.number}
           />
         </label>
         <button type="submit">Add contact</button>
